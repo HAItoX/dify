@@ -6,6 +6,7 @@ import {
 } from 'react'
 import useSWR, { useSWRConfig } from 'swr'
 import { useContext } from 'use-context-selector'
+import { useRouter } from 'next/router'
 import type {
   CustomConfigurationModelFixedFields,
   DefaultModel,
@@ -195,6 +196,7 @@ export const useUpdateModelList = () => {
 
 export const useAnthropicBuyQuota = () => {
   const [loading, setLoading] = useState(false)
+  const router = useRouter()
 
   const handleGetPayUrl = async () => {
     if (loading)
@@ -203,8 +205,7 @@ export const useAnthropicBuyQuota = () => {
     setLoading(true)
     try {
       const res = await getPayUrl('/workspaces/current/model-providers/anthropic/checkout-url')
-
-      window.location.href = res.url
+      router.push(res.url)
     }
     finally {
       setLoading(false)

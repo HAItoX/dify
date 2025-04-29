@@ -41,7 +41,8 @@ const InitPasswordPopup = () => {
   useEffect(() => {
     fetchInitValidateStatus().then((res: InitValidateStatusResponse) => {
       if (res.status === 'finished')
-        window.location.href = '/install'
+        router.push('/install')
+
       else
         setLoading(false)
     })

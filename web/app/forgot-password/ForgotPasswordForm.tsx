@@ -70,7 +70,7 @@ const ForgotPasswordForm = () => {
     fetchSetupStatus().then((res: SetupStatusResponse) => {
       fetchInitValidateStatus().then((res: InitValidateStatusResponse) => {
         if (res.status === 'not_started')
-          window.location.href = '/init'
+          router.push('/init')
       })
 
       setLoading(false)

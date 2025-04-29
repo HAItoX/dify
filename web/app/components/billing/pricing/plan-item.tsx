@@ -3,6 +3,7 @@ import type { FC } from 'react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useContext } from 'use-context-selector'
+import { useRouter } from 'next/router'
 import { Plan } from '../type'
 import { ALL_PLANS, NUM_INFINITE, contactSalesUrl, contractSales, unAvailable } from '../config'
 import Toast from '../../base/toast'
@@ -70,7 +71,7 @@ const PlanItem: FC<Props> = ({
 }) => {
   const { t } = useTranslation()
   const { locale } = useContext(I18n)
-
+  const router = useRouter()
   const isZh = locale === LanguagesSupported[1]
   const [loading, setLoading] = React.useState(false)
   const i18nPrefix = `billing.plans.${plan}`
@@ -188,7 +189,7 @@ const PlanItem: FC<Props> = ({
       return
 
     if (isEnterprisePlan) {
-      window.location.href = contactSalesUrl
+      router.push(contactSalesUrl)
       return
     }
     // Only workspace manager can buy plan
@@ -204,7 +205,7 @@ const PlanItem: FC<Props> = ({
     try {
       const res = await fetchSubscriptionUrls(plan, isYear ? 'year' : 'month')
       // Adb Block additional tracking block the gtag, so we need to redirect directly
-      window.location.href = res.url
+      router.push(res.url)
     }
     finally {
       setLoading(false)

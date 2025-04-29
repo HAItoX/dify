@@ -2,6 +2,7 @@
 import type { FC } from 'react'
 import React, { useEffect, useState } from 'react'
 import useSWR from 'swr'
+import { useRouter } from 'next/router'
 import Panel from '../panel'
 import { DataSourceType } from '../panel/types'
 import type { DataSourceNotion as TDataSourceNotion } from '@/models/common'
@@ -32,7 +33,7 @@ const DataSourceNotion: FC<Props> = ({
   const { isCurrentWorkspaceManager } = useAppContext()
   const [canConnectNotion, setCanConnectNotion] = useState(false)
   const { data } = useSWR(canConnectNotion ? '/oauth/data-source/notion' : null, fetchNotionConnection)
-
+  const router = useRouter()
   const connected = !!workspaces.length
 
   const handleConnectNotion = () => {
@@ -44,14 +45,14 @@ const DataSourceNotion: FC<Props> = ({
 
   const handleAuthAgain = () => {
     if (data?.data)
-      window.location.href = data.data
+      router.push(data.data)
     else
       setCanConnectNotion(true)
   }
 
   useEffect(() => {
     if (data?.data)
-      window.location.href = data.data
+      router.push(data.data)
   }, [data])
   return (
     <Panel
